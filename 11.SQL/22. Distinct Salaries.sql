@@ -1,0 +1,3 @@
+SELECT DISTINCT salary
+FROM users
+ORDER BY salary ASC;

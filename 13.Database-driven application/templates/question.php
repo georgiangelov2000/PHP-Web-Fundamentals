@@ -8,9 +8,9 @@
 </head>
 <body>
 <form method="post">
-    <input type="text" name="username">
-    <input type="text" name="password">
-    <input type="submit" name="submit" value="submit">
+    Your answer here:
+    <textarea name="body"></textarea>
+    <input type="submit" value="Answer!" name="answer"/>
 </form>
 </body>
 </html>

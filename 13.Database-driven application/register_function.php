@@ -1,20 +1,19 @@
 <?php
-include 'db/db_connection.php';
-$response='';
+require_once 'db/db_connection.php';
 
 if (isset($_POST['username'], $_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    include_once 'db/user_queries.php';
+    require_once 'db/user_queries.php';
 
     $result = register($connection, $username, $password);
 
     if ($result) {
-        header("Location: login.php");
+         header("Location: login_form.php");
     } else {
-        $response = "error";
+        echo 'error';
     }
 
 }
-include_once 'templates/register_form.php';
+require_once 'templates/register_form.php';

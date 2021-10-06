@@ -15,14 +15,14 @@ if ($userId == -1) {
 }
 
 
-function url(string $url): string
-{
-    $symbol = strstr($url, "?") ? '&' : '?';
-    return $url . "{$symbol}authId=" . $_GET['authId'];
-}
+// function url(string $url): string
+// {
+//     $symbol = strstr($url, "?") ? '&' : '?';
+//     return $url . "{$symbol}authId=" . $_GET['authId'];
+// }
 
-function hasRole(PDO $db, int $userId, string $role)
-{
-    $roles = getRolesByUserId($db, $userId);
-    return in_array($role, $roles);
-}
+// function hasRole(PDO $db, int $userId, string $role)
+// {
+//     $roles = getRolesByUserId($db, $userId);
+//     return in_array($role, $roles);
+// }

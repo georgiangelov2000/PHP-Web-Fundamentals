@@ -68,77 +68,94 @@
 //     return -1;
 // }
 
-// function issueAuthenticationString(PDO $db, int $userId): string
-// {
-//     $query = "
-//         SELECT 
-//           auth_string
-//         FROM
-//           authentications
-//         WHERE 
-//           user_id = ? 
-//     ";
+function getUserByAuthId(PDO $db, string $authId):int {
+  $query="
+        SELECT
+          user_id
+        FROM
+          authentications
+        WHERE
+          auth_string = ?
+  ";
 
-//     $stmt = $db->prepare($query);
-//     $stmt->execute([$userId]);
-//     $data = $stmt->fetch(PDO::FETCH_ASSOC);
-//     if ($data && $data['auth_string']) {
-//         return $data['auth_string'];
-//     }
+  $stmt= $db->prepare($query);
+  $stmt->execute([$authId]);
+  $data = $stmt->fetch(PDO::FETCH_ASSOC);
+  if($data && $data['user_id']){
+    return (int)$data['user_id'];
+  }
+  return -1;
+};
 
-//     $authString = uniqid();
-//     $query = "
-//         INSERT INTO
-//           authentications (
-//             auth_string, 
-//             user_id
-//           ) VALUES (
-//             ?,
-//             ?
-//           )
-//     ";
 
-//     $stmt = $db->prepare($query);
-//     $stmt->execute(
-//         [
-//             $authString,
-//             $userId
-//         ]
-//     );
+function issueAuthenticationString(PDO $db ,  $userId): string{
+  $query = "
+        SELECT 
+          auth_string
+        FROM
+          authentications
+        WHERE 
+          user_id = ? 
+    ";
 
-//     return $authString;
-// }
+  $stmt=$db->prepare($query);
+  $stmt->execute([$userId]);
+  $data = $stmt->fetch(PDO::FETCH_ASSOC);
+  if($data && $data['auth_string']){
+    return $data['auth_string'];
+  };
 
-// function verifyCredentials(PDO $db, string $username, string $password): int
-// {
-//     $query = "
-//         SELECT 
-//             id, 
-//             password
-//         FROM
-//           users
-//         WHERE
-//           username = ?
-//     ";
+  $authString=uniqid();
 
-//     $stmt = $db->prepare($query);
-//     if (!$stmt->execute([$username])) {
-//         return -1;
-//     }
+  $query="
+    INSERT INTO
+      authentications(
+        auth_string,
+        user_id
+      ) VALUES (
+        ?, 
+        ?
+      )
+  ";
+  
+  $stmt=$db->prepare($query);
+  $stmt->execute([
+    $authString,
+    $userId
+  ]);
+  return $authString;
+}
 
-//     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-//     $passwordHash = $user['password'];
+function verifyCredentials(PDO $db,  $username,  $password): int{
+  $query="
+    SELECT 
+        id,
+         password
+      FROM
+        users
+      WHERE
+        username = ?
+  ";
 
-//     $result = password_verify($password, $passwordHash);
+  $stmt=$db->prepare($query);
+  if($stmt->execute([$username])) {
+    return -1;
+  };
 
-//     if ($result) {
-//         return (int)$user['id'];
-//     }
+  $user=$stmt->fetch(PDO::FETCH_ASSOC);
+  $passwordHash=$user['password'];
 
-//     return -1;
-// }
+  $result=password_verify($password, $passwordHash);
 
-function register(PDO $db , $username, $password){
+
+  if($result){
+    return (int)$user['id'];
+  }
+  return -1;
+
+}
+
+function register(PDO $db , $username, $password): bool{
     $query="
     INSERT INTO 
       users(
@@ -156,33 +173,9 @@ function register(PDO $db , $username, $password){
       $username,
       password_hash($password, PASSWORD_ARGON2I)
     ]);
-    return $result;
 
-}
 
-// function register(PDO $db, string $username, string $password): bool
-// {
-//     $query = "
-//         INSERT INTO 
-//           users (
-//             username, 
-//             password
-//           )
-//         VALUES (
-//             ?,
-//             ?
-//         )
-//     ";
-
-//     $statement = $db->prepare($query);
-//     $result = $statement->execute(
-//         [
-//             $username,
-//             password_hash($password, PASSWORD_ARGON2I)
-//         ]
-//     );
-
-//     $userId = $db->lastInsertId();
+    //  $userId = $db->lastInsertId();
 
 //     $roles = ['USER'];
 
@@ -197,5 +190,6 @@ function register(PDO $db , $username, $password){
 //         $db->query($query);
 //     }
 
-//     return $result;
-// }
+    return $result;
+
+}

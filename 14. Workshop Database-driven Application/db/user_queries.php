@@ -177,4 +177,3 @@ function register(PDO $db, string $username, string $password): bool
 
     return $result;
 }
-

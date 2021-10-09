@@ -12,10 +12,14 @@ if (isset($_POST['register'])) {
     }
     $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $dataForDb = $_POST;
+    
     unset($dataForDb['register']);
     unset($dataForDb['confirm']);
+
     $avatarInfo = $_FILES['avatar'];
+    
     $dataForDb['avatar'] = null;
+    
     if (!empty($avatarInfo['name'])) {
         $fileName = $avatarInfo['name'];
         if ($avatarInfo['type'] != 'image/png') {

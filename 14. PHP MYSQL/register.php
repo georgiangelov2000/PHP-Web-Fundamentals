@@ -25,7 +25,7 @@ if (isset($_POST['register'])) {
         if ($avatarInfo['type'] != 'image/png') {
             throw new Exception("Not supported file format");
         }
-        if ($avatarInfo['size'] > 3500000) {
+        if ($avatarInfo['size'] > 350000) {
             throw new Exception("File too big!");
         }
         $path = 'avatars/' . uniqid() . '_' . $fileName;
@@ -49,7 +49,7 @@ if (isset($_POST['register'])) {
    password,
    gender_id,
    born_on,
-   sexual_orientation_id,
+   sexual_orentation_id,
    country_id,
    city_id,
    description,
@@ -75,7 +75,8 @@ if (isset($_POST['register'])) {
     if ($stmt->execute($dataForDb)) {
         $result = "Success";
     } else {
-        $result = "Error :(";
+        // $result=$stmt->error;
+        print_r($stmt->errorInfo());
     }
 }
 

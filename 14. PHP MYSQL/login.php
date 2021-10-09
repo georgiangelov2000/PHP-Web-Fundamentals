@@ -11,7 +11,7 @@ if(isset($_POST['login'])){
         $username
     ]);
     $user=$stmt->fetch(PDO::FETCH_ASSOC);
-    if($user){
+    if(!$user){
         throw new Exception('No such nickname');
     }
     $passwordHash=$user['password'];

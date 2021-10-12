@@ -1,26 +1,22 @@
-<?php
+<!-- <?php
 require_once 'app.php';
 
 if(isset($_POST['login'])){
+    $userService = new \Service\User\UserService($db, $encryptionService);
+    
     $username = $_POST['nickname'];
     $password = $_POST['password'];
-    $query = 'SELECT id,password FROM people Where nickname=?';
 
-    $stmt = $db->prepare($query);
-    $stmt->execute([
-        $username
-    ]);
-    $user=$stmt->fetch(PDO::FETCH_ASSOC);
-    if(!$user){
-        throw new Exception('No such nickname');
+    if($userService->login($username, $password)){
+        throw new \Exceptions\LoginException("Password mismatch!");
     }
-    $passwordHash=$user['password'];
-    if(password_verify($password,$passwordHash)){
-        $_SESSION['user_id']=$user['id'];
-        header('Location: profile.php');
-        exit;
-    }
-    throw new Exception('Password mismatch');
+    header("Location: profile.php");
+    exit;
 }
-
-include 'login_frontend.php';
+$viewData = new \Data\Users\UserRegisterViewData();
+if (isset($_SESSION['error'])) {
+    $error = $_SESSION['error'];
+    unset($_SESSION['error']);
+    $viewData= new \Data\Users\UserLoginViewData(error);
+}
+$app->loadTemplate("login_frontend", $viewData); -->

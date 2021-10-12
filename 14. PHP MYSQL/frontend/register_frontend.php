@@ -60,11 +60,11 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Gender</label>
                     <div class="col-lg-10">
-                        <?php foreach ($genders as $gender): ?>
+                        <?php foreach ($data->getGenders() as $gender): ?>
                         <div class="radio">
                             <label>
-                                <input name="gender" id="gender" value="<?=$gender['id'];?>" type="radio">
-                                <?= $gender['name']; ?>
+                                <input name="gender" id="gender" value="<?=$gender->getId();?>" type="radio">
+                                <?= $gender->getName();?>
                             </label>
                         </div>
                         <?php endforeach; ?>
@@ -80,9 +80,9 @@
                     <label for="orientation" class="col-lg-2 control-label">Sexual orientation</label>
                     <div class="col-lg-10">
                         <select name="orientation" class="form-control" id="orientation">
-                            <?php foreach ($orientations as $orientation): ?>
-                                <option value="<?=$orientation['id'];?>">
-                                    <?= $orientation['name']; ?>
+                            <?php foreach ($data->getOrientations() as $orientation): ?>
+                                <option value="<?=$orientation->getId();?>">
+                                    <?= $orientation->getName();?>
                                 </option>
                             <?php endforeach;?>
                         </select>
@@ -92,9 +92,9 @@
                     <label for="country" class="col-lg-2 control-label">Country</label>
                     <div class="col-lg-10">
                         <select name="country" class="form-control" id="country">
-                            <?php foreach ($countries as $country): ?>
-                                <option value="<?=$country['id'];?>">
-                                    <?= $country['name']; ?>
+                            <?php foreach ($data->getCountries() as $country): ?>
+                                <option value="<?=$country->getId();?>">
+                                    <?= $country->getName();?>
                                 </option>
                             <?php endforeach;?>
                         </select>
@@ -104,9 +104,9 @@
                     <label for="city" class="col-lg-2 control-label">City</label>
                     <div class="col-lg-10">
                         <select name="city" class="form-control" id="city">
-                            <?php foreach ($cities as $city): ?>
-                                <option value="<?=$city['id'];?>">
-                                    <?= $city['name']; ?>
+                            <?php foreach ($data->getCities() as $city): ?>
+                                <option value="<?=$city->getId();?>">
+                                    <?= $city->getName();?>
                                 </option>
                             <?php endforeach;?>
                         </select>
